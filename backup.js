@@ -1,0 +1,4 @@
+import {validateState} from './finance.js';
+export function backupData(state){validateState(state);return {budget:state.budget,goals:state.goals.map(({id,name,target})=>({id,name,target})),transactions:state.transactions.map(({id,type,amount,date,category,goal,note})=>({id,type,amount,date,category,goal:goal||'',note}))}}
+export function encodeBackup(state,now=new Date()){return JSON.stringify({app:'uangku',schemaVersion:1,exportedAt:now.toISOString(),data:backupData(state)},null,2)}
+export function decodeBackup(text){if(typeof text!=='string'||text.length>20*1024*1024)throw Error('File backup terlalu besar atau tidak valid.');const parsed=JSON.parse(text);if(parsed?.app){if(parsed.app!=='uangku'||parsed.schemaVersion!==1)throw Error('Versi backup tidak didukung.');return backupData(parsed.data)}return backupData(parsed)}
