@@ -20,7 +20,9 @@ Pada Pengaturan, backup JSON berisi seluruh bulan, target, dan anggaran. Pemulih
 
 ## Backup cloud
 
-Integrasi Google Drive disiapkan, tetapi **belum aktif** sebelum OAuth Client ID diisi di `cloud-config.js`. Ikuti [panduan aktivasi](docs/backup-drive.md). Jangan menaruh Client Secret atau token di kode.
+Google Drive sudah dikonfigurasi dengan OAuth Client ID publik di `cloud-config.js`. Pengguna menghubungkan akun Google masing-masing; mode Testing memerlukan email terdaftar sebagai test user. Ikuti [panduan aktivasi](docs/backup-drive.md). Jangan menaruh Client Secret atau token di kode.
+
+Backup baru berisi JSON lengkap dan Excel bulan berjalan dalam folder **My Drive → Uangku Backups**. Tombol Backup sekarang menampilkan loading dan popup hasil; keberhasilan memerlukan konfirmasi kedua file dari Drive. Pengguna versi lama harus menyambungkan ulang untuk izin file yang dibuat Uangku. Salinan JSON tersembunyi lama tetap dapat dipulihkan.
 
 Setelah terhubung, perubahan otomatis dicadangkan ketika aplikasi terbuka, online, dan sesi Google aktif. Setelah reload/penutupan atau token kedaluwarsa, pengguna harus menghubungkan ulang. Snapshot bersifat terpisah, tidak ditimpa/digabung. Tidak ada backup latar belakang saat iPhone menutup aplikasi. Koneksi Google yang sebenarnya perlu diuji setelah konfigurasi; tes otomatis memakai server Drive simulasi.
 
