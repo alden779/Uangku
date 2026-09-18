@@ -2,7 +2,7 @@ import {money,totals,goalBalance,validate,validateState} from './finance.js';
 import {exportExcel,exportCsv} from './exports.js';
 import {encodeBackup,decodeBackup} from './backup.js';
 import {DriveBackup} from './cloud-backup.js';
-import {GOOGLE_CLIENT_ID} from './cloud-config.js';
+import {GOOGLE_CLIENT_ID} from './cloud-config.js?v=20260918-drive2';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
 const blank=()=>({transactions:[],goals:[],budget:0});let state=blank(),tab='home',filter='all',editing=null,mode='transaction';
