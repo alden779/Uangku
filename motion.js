@@ -8,14 +8,14 @@ export function createMotionFeedback({reducedMotion=()=>globalThis.matchMedia?.(
   const layer=document.createElement('div');layer.className='motion-layer';layer.setAttribute('aria-hidden','true');document.body.append(layer);let timer;
   return {play(kind,progress=0){
     clearTimeout(timer);
-    const config={save:['celengan','Celengan makin gendut!'],withdraw:['nangis','Yah, celengannya diet dulu…'],income:['jempol','Dompet dapat amunisi!'],expense:['kaget','Dadah duit, sudah dicatat!'],target:['merayakan','Target tercapai! Impian makin dekat!'],backup:['jempol','Catatan aman di awan!']}[kind];
+    const config={save:['nabung','Celengan makin gendut!'],withdraw:['nangis','Yah, celengannya diet dulu…'],income:['jempol','Dompet dapat amunisi!'],expense:['kaget','Dadah duit, sudah dicatat!'],target:['target','Target tercapai! Impian makin dekat!'],backup:['jempol','Catatan aman di awan!']}[kind];
     if(!config)return;
     const reduced=reducedMotion();layer.dataset.kind=kind;layer.dataset.reduced=String(reduced);
     const count=reduced?0:kind==='target'?24:kind==='save'?6+Math.round(progress*8):['expense','withdraw'].includes(kind)?3:kind==='backup'?4:8;
     let particles='';
     for(let i=0;i<count;i++){
       const x=Math.round((random()-.5)*85),y=Math.round((random()-.5)*65),angle=Math.round((random()-.5)*80),delay=Math.round(i*35);
-      const art=kind==='target'?'<i></i>':['expense','withdraw'].includes(kind)?winged:kind==='backup'?(i===0?cloud:'<span class="paper-icon">✓</span>'):i%3===0?note:coin;
+      const art=kind==='target'?note:['expense','withdraw'].includes(kind)?winged:kind==='backup'?(i===0?cloud:'<span class="paper-icon">✓</span>'):i%3===0?note:coin;
       particles+=`<span class="motion-particle" style="--x:${x}vw;--y:${y}vh;--angle:${angle}deg;--delay:${delay}ms;--color:${['#ffc969','#ee937b','#a3c798','#87bcb2'][i%4]}">${art}</span>`;
     }
     layer.innerHTML=particles+`<div class="motion-caption">${denku(config[0],'motion-denku')}<span>${config[1]}</span></div>`;
