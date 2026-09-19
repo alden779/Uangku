@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {goalReached} from '../denku.js';
+import {denku,goalReached} from '../denku.js';
 const state=(amount,type='save')=>({budget:0,goals:[{id:'holiday',name:'Liburan',target:100}],transactions:[{id:'deposit',goal:'holiday',type,amount}]});
 test('Celebrate a savings target crossing once, including its exact target',()=>{
   assert.equal(goalReached(state(90),state(100)),true);
@@ -11,3 +11,4 @@ test('Celebrate a savings target crossing once, including its exact target',()=>
   const withdrawing=state(110);withdrawing.transactions.push({id:'withdraw',type:'withdraw',goal:'holiday',amount:20});
   assert.equal(goalReached(state(90),withdrawing),false);
 });
+test('Target celebration uses the animated jumping DENKU asset',()=>{assert.match(denku('target'),/target-animated\.webp/)});
