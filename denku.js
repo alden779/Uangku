@@ -1,7 +1,8 @@
-const poses=new Set(['senyum','jempol','kaget','celengan','merayakan','berpikir']);
+const poses=new Set(['senyum','jempol','kaget','celengan','merayakan','berpikir','nangis']);
 export function denku(pose='senyum',className='',label=''){
   if(!poses.has(pose))pose='senyum';
-  return `<img class="denku ${className}" src="./assets/denku/${pose}-transparent.png" alt="${label}" width="1086" height="1448" loading="lazy" decoding="async">`;
+  const source=pose==='nangis'?'nangis-animated.webp':`${pose}-transparent.png`;
+  return `<img class="denku ${className}" src="./assets/denku/${source}" alt="${label}" width="1086" height="1448" loading="lazy" decoding="async">`;
 }
 export function goalReached(before,after){
   return after.goals.some(goal=>{

@@ -14,6 +14,7 @@ test('Effects replace one another and reduced motion omits flying particles',()=
   motion.play('save',0);assert.equal((layer.innerHTML.match(/class="motion-particle"/g)||[]).length,6);
   motion.play('save',1);assert.equal((layer.innerHTML.match(/class="motion-particle"/g)||[]).length,14);
   motion.play('expense');assert.equal(layer.dataset.kind,'expense');assert.equal((layer.innerHTML.match(/class="motion-particle"/g)||[]).length,3);
+  motion.play('withdraw');assert.equal(layer.dataset.kind,'withdraw');assert.match(layer.innerHTML,/nangis-animated\.webp/);assert.match(layer.innerHTML,/celengannya diet/);
   motion.clear();assert.equal(layer.innerHTML,'');
   const quiet=createMotionFeedback({reducedMotion:()=>true});quiet.play('target');assert.equal(layer.innerHTML.includes('motion-particle'),false);assert.match(layer.innerHTML,/Target tercapai/);quiet.clear();delete globalThis.document;
 });
