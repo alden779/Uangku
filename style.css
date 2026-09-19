@@ -17,3 +17,4 @@
 @keyframes denku-wiggle{0%,100%{rotate:0deg}30%{rotate:-6deg}70%{rotate:6deg}}
 @media(prefers-reduced-motion:reduce){.motion-particle{display:none}.motion-caption,.motion-denku{animation:none}}
 .denku,.brand-mark.denku-brand,.nav-denku{background:transparent;border:0;box-shadow:none;filter:drop-shadow(0 3px 2px #614b3020)}.welcome-photo{background:transparent;box-shadow:none;padding:0;transform:none}.welcome-photo img{filter:drop-shadow(0 5px 3px #614b3024)}.welcome-photo figcaption{background:#fff8e8;border-radius:12px;padding:6px;margin-top:8px}
+.goal-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.goal-manage{display:flex;gap:2px}.goal-manage button{font-size:11px;padding:7px}.goal-manage .danger{color:#a75c47}
