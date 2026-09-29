@@ -12,7 +12,7 @@ Pemasukan, pengeluaran, edit/hapus transaksi, filter bulan dan jenis, anggaran b
 
 ## Laporan dan backup
 
-Pada Transaksi → Ekspor laporan, pilih Excel untuk laporan bulan terpilih: Ringkasan, tabel Transaksi dengan filter dan header beku, serta progres Tabungan. Nominal dan tanggal memakai nilai numerik Excel; laporan adalah snapshot saat ekspor, bukan workbook input/sinkronisasi. Saldo kumulatif dihitung sampai akhir bulan terpilih. Setoran tabungan menampilkan kategori Tabungan dan nama target.
+Pada Transaksi → Ekspor laporan, pilih Excel untuk laporan bulan terpilih: Ringkasan, tabel Transaksi dengan filter dan header beku, serta progres Tabungan. Nominal dan tanggal memakai nilai numerik Excel; laporan adalah snapshot saat ekspor, bukan workbook input/sinkronisasi. Saldo Harian dihitung hanya dari pemasukan dikurangi pengeluaran, sedangkan Tabungan & Investasi dihitung terpisah dari setoran dikurangi penarikan. Setoran tabungan menampilkan kategori Tabungan dan nama target.
 
 CSV tetap tersedia untuk transfer data ke aplikasi lain. Separator titik koma dan baris `sep=;` membantu Excel mengenali kolom; beberapa aplikasi lain perlu memilih pemisah saat import. CSV tidak menyimpan format atau keseluruhan target/pengaturan, sehingga bukan cadangan lengkap.
 

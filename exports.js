@@ -1,4 +1,4 @@
-import {validateState} from './finance.js';
+import {validateState} from './finance.js?v=20260929-ledger1';
 
 export const typeLabels={income:'Pemasukan',expense:'Pengeluaran',save:'Setor tabungan',withdraw:'Ambil tabungan'};
 export function reportData(state,month){
@@ -6,15 +6,16 @@ export function reportData(state,month){
   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))throw Error('Pilih bulan laporan yang valid.');
   const rows=state.transactions.filter(t=>t.date.startsWith(month)).sort((a,b)=>a.date.localeCompare(b.date));
   const sum=type=>rows.filter(t=>t.type===type).reduce((n,t)=>n+t.amount,0);
-  const effect=t=>['income','withdraw'].includes(t.type)?t.amount:-t.amount;
+  const dailyEffect=t=>t.type==='income'?t.amount:t.type==='expense'?-t.amount:0;
   const prior=state.transactions.filter(t=>t.date.slice(0,7)<month);
   const through=state.transactions.filter(t=>t.date.slice(0,7)<=month);
-  const opening=prior.reduce((n,t)=>n+effect(t),0);
-  const closing=opening+rows.reduce((n,t)=>n+effect(t),0);
+  const opening=prior.reduce((n,t)=>n+dailyEffect(t),0);
+  const closing=opening+rows.reduce((n,t)=>n+dailyEffect(t),0);
+  const savingsOpening=prior.reduce((n,t)=>n+(t.type==='save'?t.amount:t.type==='withdraw'?-t.amount:0),0);
   const goals=state.goals.map(g=>{const related=through.filter(t=>t.goal===g.id&&['save','withdraw'].includes(t.type));const deposits=related.filter(t=>t.type==='save').reduce((n,t)=>n+t.amount,0);const withdrawals=related.filter(t=>t.type==='withdraw').reduce((n,t)=>n+t.amount,0);return {...g,deposits,withdrawals,balance:deposits-withdrawals}});
   const grouped=new Map();rows.filter(t=>t.type==='expense').forEach(t=>grouped.set(t.category,(grouped.get(t.category)||0)+t.amount));
   const savings=goals.reduce((n,g)=>n+g.balance,0);
-  return {month,rows,goals,opening,closing,savings,income:sum('income'),expense:sum('expense'),deposits:sum('save'),withdrawals:sum('withdraw'),budget:state.budget,categories:[...grouped].sort((a,b)=>b[1]-a[1])};
+  return {month,rows,goals,opening,closing,savingsOpening,savings,income:sum('income'),expense:sum('expense'),deposits:sum('save'),withdrawals:sum('withdraw'),budget:state.budget,categories:[...grouped].sort((a,b)=>b[1]-a[1])};
 }
 export function transactionFields(state,t){const transfer=['save','withdraw'].includes(t.type);return [t.date,typeLabels[t.type],transfer?'Tabungan':t.category,transfer?(state.goals.find(g=>g.id===t.goal)?.name||''):'',t.amount,t.note]}
 export function exportCsv(state,month){
@@ -44,9 +45,9 @@ function sheet(widths,rows,{freeze=0,table=false}={}){return `<?xml version="1.0
 export function exportExcel(state,month,now=new Date()){
   const d=reportData(state,month),title=new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric'}).format(new Date(month+'-01T12:00:00'));
   const summary=[[2,[cell(2,0,'Laporan keuangan Uangku',1)],30],[3,[cell(3,0,title),cell(3,3,'Dibuat '+now.toLocaleDateString('id-ID'))]],[5,[cell(5,0,'Ringkasan bulan',2),cell(5,1,'Nominal',2),cell(5,3,'Kategori pengeluaran',2),cell(5,4,'Nominal',2),cell(5,5,'Porsi',2)]]];
-  const metrics=[['Saldo uang harian awal bulan',d.opening],['Pemasukan',d.income],['Pengeluaran',d.expense],['Setoran ke tabungan',d.deposits],['Penarikan dari tabungan',d.withdrawals],['Saldo uang harian akhir bulan',d.closing],['Saldo tabungan akhir bulan',d.savings],['Total uang & tabungan akhir bulan',d.closing+d.savings],['Anggaran bulanan',d.budget||'Tidak diatur'],['Sisa anggaran',d.budget?d.budget-d.expense:'Tidak diatur'],['Jumlah transaksi',d.rows.length]];
-  metrics.forEach(([name,value],i)=>{const r=i+6,highlight=i>=5&&i<=7;const c=[cell(r,0,name,highlight?8:0),cell(r,1,value,i===10?11:highlight?9:3)];const cat=d.categories[i];if(cat)c.push(cell(r,3,cat[0]),cell(r,4,cat[1],3),cell(r,5,d.expense?cat[1]/d.expense:0,5));else if(i===0&&!d.categories.length)c.push(cell(r,3,'Belum ada pengeluaran'));summary.push([r,c])});
-  summary.push([19,[cell(19,0,'Saldo dihitung dari catatan sampai akhir bulan yang dipilih.')]], [20,[cell(20,0,'Setoran dan penarikan tabungan adalah transfer, bukan pemasukan/pengeluaran.')]]);
+  const metrics=[['Saldo uang harian awal bulan',d.opening],['Pemasukan',d.income],['Pengeluaran',d.expense],['Saldo uang harian akhir bulan',d.closing],['Saldo tabungan awal bulan',d.savingsOpening],['Setoran ke tabungan',d.deposits],['Penarikan dari tabungan',d.withdrawals],['Saldo tabungan akhir bulan',d.savings],['Total kekayaan akhir bulan',d.closing+d.savings],['Anggaran bulanan',d.budget||'Tidak diatur'],['Sisa anggaran',d.budget?d.budget-d.expense:'Tidak diatur'],['Jumlah transaksi',d.rows.length]];
+  metrics.forEach(([name,value],i)=>{const r=i+6,highlight=[3,7,8].includes(i);const c=[cell(r,0,name,highlight?8:0),cell(r,1,value,i===11?11:highlight?9:3)];const cat=d.categories[i];if(cat)c.push(cell(r,3,cat[0]),cell(r,4,cat[1],3),cell(r,5,d.expense?cat[1]/d.expense:0,5));else if(i===0&&!d.categories.length)c.push(cell(r,3,'Belum ada pengeluaran'));summary.push([r,c])});
+  summary.push([20,[cell(20,0,'Saldo harian hanya dihitung dari pemasukan dan pengeluaran.')]], [21,[cell(21,0,'Tabungan dihitung terpisah dari setoran dan penarikan tabungan.')]]);
   const headers=['Tanggal','Jenis','Kategori','Target tabungan','Nominal (Rp)','Catatan'];
   const transactions=[[2,[cell(2,0,'Transaksi — '+title,1)],30],[3,[cell(3,0,d.rows.length+' transaksi · seluruh jenis transaksi bulan ini')]],[5,headers.map((v,i)=>cell(5,i,v,2)),28]];
   d.rows.forEach((t,i)=>{const r=i+6,fields=transactionFields(state,t),lines=Math.max(t.note.split('\n').reduce((n,s)=>n+Math.max(1,Math.ceil(s.length/38)),0),Math.ceil(fields[3].length/26));transactions.push([r,fields.map((v,j)=>cell(r,j,j===0?dateSerial(v):v,j===0?4:j===4?3:[3,5].includes(j)?10:0)),Math.max(26,lines*17)])});
