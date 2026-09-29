@@ -1,4 +1,4 @@
-import {denku} from './denku.js';
+import {denku} from './denku.js?v=20260929-iphone1';
 const coin='<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="#ffdc71" stroke="#b88425" stroke-width="3"/><circle cx="24" cy="24" r="14" fill="none" stroke="#fff4b9" stroke-width="2"/><text x="24" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#946b20">Rp</text></svg>';
 const note='<svg viewBox="0 0 70 48" aria-hidden="true"><rect x="3" y="7" width="64" height="34" rx="6" fill="#b9d99a" stroke="#467b4a" stroke-width="3"/><path d="M10 17v-3h8m34 0h8v3M10 31v3h8m34 0h8v-3" fill="none" stroke="#467b4a" stroke-width="2"/><circle cx="35" cy="24" r="11" fill="#eff8d9"/><text x="35" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#467b4a">Rp</text></svg>';
 const winged='<svg viewBox="0 0 100 55" aria-hidden="true"><path d="M28 30C6 30 0 5 7 4c12 2 18 8 28 20M72 30c22 0 28-25 21-26-12 2-18 8-28 20" fill="#fff" stroke="#b1c8c0" stroke-width="2"/><rect x="24" y="20" width="52" height="28" rx="5" fill="#b9d99a" stroke="#467b4a" stroke-width="2"/><circle cx="50" cy="34" r="9" fill="#eff8d9"/></svg>';

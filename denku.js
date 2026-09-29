@@ -2,7 +2,7 @@ const poses=new Set(['senyum','jempol','kaget','celengan','merayakan','berpikir'
 export function denku(pose='senyum',className='',label=''){
   if(!poses.has(pose))pose='senyum';
   const source={nangis:'nangis-animated.webp',nabung:'nabung-animated.webp',target:'target-animated.webp'}[pose]||`${pose}-transparent.png`;
-  return `<img class="denku ${className}" src="./assets/denku/${source}" alt="${label}" width="1086" height="1448" loading="lazy" decoding="async">`;
+  return `<img class="denku ${className}" src="./assets/denku/${source}" alt="${label}" decoding="async">`;
 }
 export function goalReached(before,after){
   return after.goals.some(goal=>{

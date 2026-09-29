@@ -12,3 +12,4 @@ test('Celebrate a savings target crossing once, including its exact target',()=>
   assert.equal(goalReached(state(90),withdrawing),false);
 });
 test('Target celebration uses the animated jumping DENKU asset',()=>{assert.match(denku('target'),/target-animated\.webp/)});
+test('DENKU images avoid hard-coded intrinsic sizes and lazy loading that clip in iOS',()=>{const image=denku('celengan','card-denku');assert.doesNotMatch(image,/width=|height=|loading="lazy"/);assert.match(image,/card-denku/)});

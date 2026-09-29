@@ -1,4 +1,4 @@
-import {denku} from './denku.js';
+import {denku} from './denku.js?v=20260929-iphone1';
 export function createBackupFeedback(){
   const dialog=document.createElement('dialog');dialog.id='backup-feedback';dialog.setAttribute('aria-labelledby','backup-feedback-title');
   dialog.innerHTML='<button type="button" class="quiet feedback-close" aria-label="Tutup">✕</button><div class="feedback-art" aria-hidden="true"></div><div class="feedback-symbol" aria-hidden="true"></div><h2 id="backup-feedback-title"></h2><p class="feedback-message" role="status" aria-live="polite"></p><a class="feedback-folder" target="_blank" rel="noopener" hidden>Buka folder di Google Drive</a><button type="button" class="primary feedback-done">Oke</button>';
